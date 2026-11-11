@@ -2,18 +2,15 @@ pipeline {
     agent any
 
     environment {
-        USER_SERVICE_IMAGE  = 'taskflow-user-service:latest'
-        TASK_SERVICE_IMAGE  = 'taskflow-task-service:latest'
-        COMPOSE_FILE        = 'docker-compose.yml'
+        COMPOSE_FILE = 'docker-compose.yml'
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 echo '=== Stage 1: Checkout Code ==='
                 checkout scm
-                echo "Branch: ${env.BRANCH_NAME ?: 'local'}"
+                echo "Branch: ${env.BRANCH_NAME ?: 'master'}"
                 echo "Commit: ${env.GIT_COMMIT ?: 'N/A'}"
             }
         }
@@ -24,7 +21,7 @@ pipeline {
                     steps {
                         dir('user-service') {
                             echo '=== Installing User Service dependencies ==='
-                            bat 'npm ci'
+                            sh 'npm ci'
                         }
                     }
                 }
@@ -32,7 +29,7 @@ pipeline {
                     steps {
                         dir('task-service') {
                             echo '=== Installing Task Service dependencies ==='
-                            bat 'npm ci'
+                            sh 'npm ci'
                         }
                     }
                 }
@@ -45,7 +42,7 @@ pipeline {
                     steps {
                         dir('user-service') {
                             echo '=== Running User Service Tests ==='
-                            bat 'npm test'
+                            sh 'npm test'
                         }
                     }
                     post {
@@ -58,7 +55,7 @@ pipeline {
                     steps {
                         dir('task-service') {
                             echo '=== Running Task Service Tests ==='
-                            bat 'npm test'
+                            sh 'npm test'
                         }
                     }
                     post {
@@ -73,15 +70,14 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 echo '=== Stage 4: Building Docker images ==='
-                bat 'docker compose build'
+                sh 'docker compose build user-service task-service'
             }
         }
 
         stage('Deploy with Docker Compose') {
             steps {
                 echo '=== Stage 5: Deploying services ==='
-                bat 'docker compose down --remove-orphans'
-                bat 'docker compose up -d'
+                sh 'docker compose up -d --no-deps user-service task-service'
                 echo 'Services deployed successfully.'
             }
         }
@@ -89,14 +85,12 @@ pipeline {
         stage('Health Check') {
             steps {
                 echo '=== Stage 6: Verifying service health ==='
-                // Wait for services to be ready
-                sleep(time: 10, unit: 'SECONDS')
-
-                bat '''
-                    curl -f http://localhost:3001/health || exit 1
-                    echo User Service is healthy!
-                    curl -f http://localhost:3002/health || exit 1
-                    echo Task Service is healthy!
+                sleep(time: 5, unit: 'SECONDS')
+                sh '''
+                    curl -f http://user-service:3001/health || exit 1
+                    echo "User Service is healthy!"
+                    curl -f http://task-service:3002/health || exit 1
+                    echo "Task Service is healthy!"
                 '''
             }
         }

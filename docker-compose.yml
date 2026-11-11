@@ -1,4 +1,21 @@
 services:
+  jenkins:
+    image: jenkins/jenkins:lts-jdk17
+    container_name: taskflow-jenkins
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - .:/taskflow
+    environment:
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+    restart: unless-stopped
+    networks:
+      - taskflow-network
+
   user-service:
     build:
       context: ./user-service
@@ -31,6 +48,9 @@ services:
     depends_on:
       - user-service
     restart: unless-stopped
+
+volumes:
+  jenkins_home:
 
 networks:
   taskflow-network:

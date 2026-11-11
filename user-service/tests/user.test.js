@@ -10,8 +10,7 @@ describe('User Service API Tests', () => {
     it('should return status UP', async () => {
       const res = await request(app).get('/health');
       expect(res.status).toBe(200);
-      // Intentional failure to test pipeline blocking
-      expect(res.body.status).toBe('FAIL_TEST_BLOCK_DEPLOY');
+      expect(res.body.status).toBe('UP');
       expect(res.body.service).toBe('user-service');
     });
   });

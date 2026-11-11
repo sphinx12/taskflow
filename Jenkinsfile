@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        COMPOSE_FILE = 'docker-compose.yml'
+        COMPOSE_PROJECT_NAME = 'taskflow'
     }
 
     stages {
@@ -70,14 +70,14 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 echo '=== Stage 4: Building Docker images ==='
-                sh 'docker compose build user-service task-service'
+                sh 'docker compose -p taskflow build user-service task-service'
             }
         }
 
         stage('Deploy with Docker Compose') {
             steps {
                 echo '=== Stage 5: Deploying services ==='
-                sh 'docker compose up -d --no-deps user-service task-service'
+                sh 'docker compose -p taskflow up -d --no-deps user-service task-service'
                 echo 'Services deployed successfully.'
             }
         }

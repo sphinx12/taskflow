@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>TaskFlow — Comprendre le Projet DevOps en 1 Page</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 12mm 15mm 12mm 15mm;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+            color: #1e293b;
+            background: #ffffff;
+            line-height: 1.35;
+            font-size: 11pt;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+        .title-block h1 {
+            font-size: 18pt;
+            color: #1e3a8a;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .title-block p {
+            font-size: 9.5pt;
+            color: #475569;
+            font-weight: 500;
+        }
+        .badge {
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 8.5pt;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px 12px;
+        }
+        .card-title {
+            font-size: 10.5pt;
+            font-weight: 700;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .problem-card {
+            border-left: 4px solid #ef4444;
+        }
+        .problem-card .card-title { color: #b91c1c; }
+        .solution-card {
+            border-left: 4px solid #10b981;
+        }
+        .solution-card .card-title { color: #047857; }
+        .card ul {
+            padding-left: 16px;
+            font-size: 9pt;
+            color: #334155;
+        }
+        .card ul li {
+            margin-bottom: 3px;
+        }
+        .pipeline-section {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+        }
+        .pipeline-title {
+            font-size: 11pt;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .pipeline-title span {
+            font-size: 8.5pt;
+            color: #64748b;
+            font-weight: normal;
+        }
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 6px;
+        }
+        .step {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 6px 4px;
+            text-align: center;
+        }
+        .step-num {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            font-size: 7.5pt;
+            font-weight: bold;
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            border-radius: 50%;
+            margin-bottom: 3px;
+        }
+        .step-name {
+            font-size: 8pt;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 2px;
+        }
+        .step-desc {
+            font-size: 7pt;
+            color: #64748b;
+            line-height: 1.15;
+        }
+        .key-rule {
+            background: #fef2f2;
+            border: 1px dashed #f87171;
+            border-radius: 6px;
+            padding: 6px 10px;
+            margin-top: 8px;
+            font-size: 8.5pt;
+            color: #991b1b;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .glossary {
+            margin-bottom: 10px;
+        }
+        .glossary-title {
+            font-size: 10pt;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 6px;
+        }
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        .glossary-item {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 6px 8px;
+        }
+        .glossary-item strong {
+            display: block;
+            font-size: 8.5pt;
+            color: #1d4ed8;
+            margin-bottom: 2px;
+        }
+        .glossary-item p {
+            font-size: 7.8pt;
+            color: #475569;
+            line-height: 1.2;
+        }
+        .footer {
+            border-top: 1px solid #e2e8f0;
+            padding-top: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 8pt;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="title-block">
+            <h1>Projet TaskFlow — DevOps Expliqué en 1 Page</h1>
+            <p>Master Informatique • Contexte d'Entreprise : <strong>Creto (Tunisie)</strong></p>
+        </div>
+        <div class="badge">Fiche Synthétique</div>
+    </div>
+
+    <!-- Le Problème vs La Solution -->
+    <div class="grid-2">
+        <div class="card problem-card">
+            <div class="card-title">❌ Sans DevOps (La vie classique)</div>
+            <ul>
+                <li><strong>« Chez moi ça marche » :</strong> Le code fonctionne sur le PC du dev mais plante sur le serveur.</li>
+                <li><strong>Tests oubliés :</strong> Pas le temps de tout retester manuellement avant chaque mise en ligne.</li>
+                <li><strong>Déploiements manuels stressants :</strong> Commandes tapées à la main, risque d'erreur humaine élevé, coupures de service.</li>
+            </ul>
+        </div>
+        <div class="card solution-card">
+            <div class="card-title">✅ Avec TaskFlow (La méthode DevOps)</div>
+            <ul>
+                <li><strong>Conteneurs Docker :</strong> L'application tourne dans une boîte identique partout (PC du dev, test, serveur).</li>
+                <li><strong>Tests 100 % automatisés :</strong> Chaque changement de code est testé en quelques secondes.</li>
+                <li><strong>Déploiement en 1 clic (ou zéro clic) :</strong> Un robot déploie sans couper l'application pour les utilisateurs.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- L'Usine Automatisée (Le Pipeline CI/CD) -->
+    <div class="pipeline-section">
+        <div class="pipeline-title">
+            <span>⚙️ LE CŒUR DU PROJET : LE PIPELINE CI/CD AUTOMATISÉ (JENKINS)</span>
+            <span>Durée totale : 35 secondes</span>
+        </div>
+        <div class="steps">
+            <div class="step">
+                <span class="step-num">1</span>
+                <div class="step-name">Checkout</div>
+                <div class="step-desc">Récupère le code depuis Git automatiquement</div>
+            </div>
+            <div class="step">
+                <span class="step-num">2</span>
+                <div class="step-name">Install</div>
+                <div class="step-desc">Installe les paquets nécessaires en parallèle</div>
+            </div>
+            <div class="step">
+                <span class="step-num">3</span>
+                <div class="step-name">Tests</div>
+                <div class="step-desc">Exécute les 20 tests unitaires Jest</div>
+            </div>
+            <div class="step">
+                <span class="step-num">4</span>
+                <div class="step-name">Build</div>
+                <div class="step-desc">Construit les images légères Docker</div>
+            </div>
+            <div class="step">
+                <span class="step-num">5</span>
+                <div class="step-name">Deploy</div>
+                <div class="step-desc">Lance les nouveaux conteneurs sans coupure</div>
+            </div>
+            <div class="step">
+                <span class="step-num">6</span>
+                <div class="step-name">Health</div>
+                <div class="step-desc">Vérifie que les services répondent bien en direct</div>
+            </div>
+        </div>
+
+        <div class="key-rule">
+            <strong>🛡️ La Règle d'Or (Quality Gate) :</strong>
+            <span>Si un seul test échoue à l'étape 3, le robot bloque tout immédiatement. Les étapes 4, 5 et 6 sont annulées. Aucun bug n'arrive jamais en production !</span>
+        </div>
+    </div>
+
+    <!-- Mini Lexique pour Développeur Junior -->
+    <div class="glossary">
+        <div class="glossary-title">💡 3 Concepts Clés Expliqués Simplement</div>
+        <div class="glossary-grid">
+            <div class="glossary-item">
+                <strong>1. Microservices (Node.js)</strong>
+                <p>Au lieu d'avoir un seul bloc lourd, l'application est découpée en 2 petits programmes indépendants : <em>User-Service</em> (utilisateurs) et <em>Task-Service</em> (tâches). Si l'un redémarre, l'autre continue de fonctionner.</p>
+            </div>
+            <div class="glossary-item">
+                <strong>2. Docker & Compose</strong>
+                <p>Une boîte magique qui emballe votre code avec ses dépendances exactes. Plus jamais de conflit de version entre Windows, Mac ou Linux : le conteneur tourne à l'identique partout.</p>
+            </div>
+            <div class="glossary-item">
+                <strong>3. Jenkins & CI/CD</strong>
+                <p>Un majordome infatigable. Dès que vous sauvegardez votre code sur Git, il se charge de tout vérifier, tester et mettre en ligne à votre place, de jour comme de nuit.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <span>Application de démonstration : <strong>TaskFlow</strong> (API REST Node.js/Express)</span>
+        <span>Validation : 20/20 tests réussis • Déploiement sans interruption</span>
+    </div>
+
+</body>
+</html>

@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    triggers {
+        githubPush()
+    }
+
     environment {
         COMPOSE_PROJECT_NAME = 'taskflow'
     }

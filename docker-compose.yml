@@ -52,6 +52,21 @@ services:
       - user-service
     restart: unless-stopped
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: taskflow-frontend:latest
+    container_name: taskflow-frontend
+    ports:
+      - "80:80"
+    networks:
+      - taskflow-network
+    depends_on:
+      - user-service
+      - task-service
+    restart: unless-stopped
+
 volumes:
   jenkins_home:
 

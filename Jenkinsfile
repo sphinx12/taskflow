@@ -74,14 +74,14 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 echo '=== Stage 4: Building Docker images ==='
-                sh 'docker compose -p taskflow build user-service task-service'
+                sh 'docker compose -p taskflow build user-service task-service frontend'
             }
         }
 
         stage('Deploy with Docker Compose') {
             steps {
                 echo '=== Stage 5: Deploying services ==='
-                sh 'docker compose -p taskflow up -d --no-deps user-service task-service'
+                sh 'docker compose -p taskflow up -d --no-deps user-service task-service frontend'
                 echo 'Services deployed successfully.'
             }
         }
@@ -95,6 +95,8 @@ pipeline {
                     echo "User Service is healthy!"
                     curl -f http://task-service:3002/health || exit 1
                     echo "Task Service is healthy!"
+                    curl -f http://frontend:80/ || exit 1
+                    echo "Frontend Dashboard is healthy!"
                 '''
             }
         }
@@ -104,8 +106,9 @@ pipeline {
         success {
             echo '============================================'
             echo ' PIPELINE SUCCESS - TaskFlow is deployed!'
-            echo '   User Service: http://localhost:3001'
-            echo '   Task Service: http://localhost:3002'
+            echo '   Frontend Dashboard: http://localhost (Port 80)'
+            echo '   User Service:       http://localhost:3001'
+            echo '   Task Service:       http://localhost:3002'
             echo '============================================'
         }
         failure {

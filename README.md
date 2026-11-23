@@ -1,6 +1,6 @@
 # TaskFlow — CI/CD DevOps Project
 
-A microservices-based task management backend built as a Master's PFE project demonstrating a complete DevOps pipeline deployed on AWS EC2 Cloud with automated GitHub Webhooks.
+A microservices-based task management backend built as a Master's PFE project demonstrating a complete DevOps CI/CD pipeline deployed on AWS EC2 Cloud with automated GitHub Webhooks.
 
 ## Architecture
 

@@ -26,8 +26,12 @@ taskflow/
 
 ## Technology Stack
 
-| Tool | Role |
-|------|------|
+* **Cloud Provider:** Amazon Web Services (AWS EC2)
+* **CI/CD:** Jenkins (Pipeline-as-Code)
+* **Containerization:** Docker & Docker Compose
+* **Microservices:** Node.js, Express
+* **Testing:** Jest, Supertest
+* **Automation:** GitHub Webhooks (Real-Time Push Triggers)
 | **Node.js / Express** | Microservice runtime |
 | **Jest + Supertest** | Automated testing |
 | **Docker** | Containerization |

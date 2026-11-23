@@ -18,4 +18,10 @@ RUN curl -SL https://github.com/docker/compose/releases/download/v2.29.2/docker-
  && chmod +x /usr/local/bin/docker-compose \
  && ln -sf /usr/local/bin/docker-compose /usr/bin/docker-compose
 
+# Pre-install Jenkins plugins for Pipeline and Git
+RUN jenkins-plugin-cli --plugins "workflow-aggregator git"
+
+# Copy initialization script
+COPY init.groovy.d/ /usr/share/jenkins/ref/init.groovy.d/
+
 USER root

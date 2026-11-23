@@ -235,7 +235,7 @@
                     <div class="bg-slate-900/80 border border-slate-700 p-4 rounded-lg space-y-2">
                         <div class="font-semibold text-xs text-brand-300 uppercase tracking-wider">Liens Directs</div>
                         <div class="flex flex-col space-y-2 text-xs">
-                            <a href="http://100.53.68.132:8080/job/TaskFlow-Pipeline/" target="_blank" class="text-cyan-400 hover:underline flex items-center space-x-1.5">
+                            <a id="jenkins-link" href="#" target="_blank" class="text-cyan-400 hover:underline flex items-center space-x-1.5">
                                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                 <span>Ouvrir la Console Jenkins AWS</span>
                             </a>
@@ -637,6 +637,11 @@
 
         // Init App
         window.addEventListener('DOMContentLoaded', async () => {
+            const host = window.location.hostname || 'localhost';
+            const jenkinsLink = document.getElementById('jenkins-link');
+            if (jenkinsLink) {
+                jenkinsLink.href = `http://${host}:8080/job/TaskFlow-Pipeline/`;
+            }
             await checkHealth();
             await loadUsers();
             await loadTasks();

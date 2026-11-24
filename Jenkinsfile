@@ -81,7 +81,7 @@ pipeline {
         stage('Deploy with Docker Compose') {
             steps {
                 echo '=== Stage 5: Deploying services ==='
-                sh 'docker compose -p taskflow up -d --no-deps user-service task-service frontend'
+                sh 'docker compose -p taskflow up -d --no-deps user-service task-service frontend prometheus grafana'
                 echo 'Services deployed successfully.'
             }
         }
@@ -89,7 +89,7 @@ pipeline {
         stage('Health Check') {
             steps {
                 echo '=== Stage 6: Verifying service health ==='
-                sleep(time: 5, unit: 'SECONDS')
+                sleep(time: 8, unit: 'SECONDS')
                 sh '''
                     curl -f http://user-service:3001/health || exit 1
                     echo "User Service is healthy!"
@@ -97,6 +97,10 @@ pipeline {
                     echo "Task Service is healthy!"
                     curl -f http://frontend:80/ || exit 1
                     echo "Frontend Dashboard is healthy!"
+                    curl -f http://prometheus:9090/-/healthy || exit 1
+                    echo "Prometheus is healthy!"
+                    curl -f http://grafana:3000/api/health || exit 1
+                    echo "Grafana is healthy!"
                 '''
             }
         }
@@ -109,6 +113,8 @@ pipeline {
             echo '   Frontend Dashboard: http://localhost (Port 80)'
             echo '   User Service:       http://localhost:3001'
             echo '   Task Service:       http://localhost:3002'
+            echo '   Grafana Monitoring: http://localhost:3000'
+            echo '   Prometheus Metrics: http://localhost:9090'
             echo '============================================'
         }
         failure {

@@ -230,16 +230,22 @@
                             <div class="flex justify-between"><span>👥 User Service :</span><span class="font-mono text-emerald-400">Port 3001 (Node.js)</span></div>
                             <div class="flex justify-between"><span>📋 Task Service :</span><span class="font-mono text-emerald-400">Port 3002 (Node.js)</span></div>
                             <div class="flex justify-between"><span>🤖 Jenkins CI/CD :</span><span class="font-mono text-emerald-400">Port 8080</span></div>
+                            <div class="flex justify-between"><span>📊 Grafana Monitoring :</span><span class="font-mono text-emerald-400">Port 3000</span></div>
+                            <div class="flex justify-between"><span>🔥 Prometheus Metrics :</span><span class="font-mono text-emerald-400">Port 9090</span></div>
                         </div>
                     </div>
                     <div class="bg-slate-900/80 border border-slate-700 p-4 rounded-lg space-y-2">
                         <div class="font-semibold text-xs text-brand-300 uppercase tracking-wider">Liens Directs</div>
                         <div class="flex flex-col space-y-2 text-xs">
+                            <a id="grafana-link" href="#" target="_blank" class="text-amber-400 hover:underline flex items-center space-x-1.5 font-semibold">
+                                <i class="fa-solid fa-chart-line"></i>
+                                <span>Ouvrir Grafana Dashboard (Port 3000)</span>
+                            </a>
                             <a id="jenkins-link" href="#" target="_blank" class="text-cyan-400 hover:underline flex items-center space-x-1.5">
                                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                <span>Ouvrir la Console Jenkins AWS</span>
+                                <span>Ouvrir la Console Jenkins AWS (Port 8080)</span>
                             </a>
-                            <a href="https://github.com/sphinx12/taskflow" target="_blank" class="text-cyan-400 hover:underline flex items-center space-x-1.5">
+                            <a href="https://github.com/sphinx12/taskflow" target="_blank" class="text-slate-300 hover:underline flex items-center space-x-1.5">
                                 <i class="fa-brands fa-github"></i>
                                 <span>Voir le Dépôt GitHub (sphinx12/taskflow)</span>
                             </a>
@@ -641,6 +647,10 @@
             const jenkinsLink = document.getElementById('jenkins-link');
             if (jenkinsLink) {
                 jenkinsLink.href = `http://${host}:8080/job/TaskFlow-Pipeline/`;
+            }
+            const grafanaLink = document.getElementById('grafana-link');
+            if (grafanaLink) {
+                grafanaLink.href = `http://${host}:3000/d/taskflow-overview/`;
             }
             await checkHealth();
             await loadUsers();

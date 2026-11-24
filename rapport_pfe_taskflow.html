@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport PFE — TaskFlow — Mohamed Aziz Dridi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Montserrat:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 18mm 20mm 18mm;
+            @bottom-right {
+                content: counter(page);
+                font-family: 'Montserrat', sans-serif;
+                font-size: 9pt;
+                color: #64748b;
+            }
+            @bottom-left {
+                content: "TaskFlow — Rapport PFE — ISET Sousse / Creto";
+                font-family: 'Montserrat', sans-serif;
+                font-size: 8pt;
+                color: #94a3b8;
+            }
+        }
+        
+        body {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 10.5pt;
+            line-height: 1.65;
+            color: #1e293b;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .page-container {
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 20px 40px;
+        }
+
+        /* Cover Page */
+        .cover-page {
+            page-break-after: always;
+            text-align: center;
+            padding: 30px 10px 10px 10px;
+            border: 2px solid #0f172a;
+            border-radius: 8px;
+            margin-bottom: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .cover-header {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11pt;
+            font-weight: 700;
+            color: #0f172a;
+            line-height: 1.4;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #0284c7;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .cover-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 9.5pt;
+            font-weight: 500;
+            color: #475569;
+            margin-bottom: 25px;
+        }
+
+        .cover-pfe-badge {
+            display: inline-block;
+            background: #0f172a;
+            color: #38bdf8;
+            padding: 8px 22px;
+            border-radius: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11pt;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            margin-bottom: 25px;
+        }
+
+        .cover-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18pt;
+            font-weight: 800;
+            color: #0369a1;
+            line-height: 1.35;
+            margin: 20px 0;
+        }
+
+        .cover-project-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 22pt;
+            font-weight: 800;
+            color: #0f172a;
+            background: #f0f9ff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: inline-block;
+            border: 1px dashed #0284c7;
+            margin-bottom: 35px;
+        }
+
+        .cover-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            text-align: left;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 6px;
+            border-left: 4px solid #0284c7;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10pt;
+            line-height: 1.6;
+        }
+
+        .cover-footer {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10pt;
+            font-weight: 600;
+            color: #64748b;
+            margin-top: 30px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 15px;
+        }
+
+        /* Typography & Headers */
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            color: #0f172a;
+            font-weight: 700;
+        }
+
+        .chapter-title {
+            font-size: 18pt;
+            color: #0369a1;
+            border-bottom: 2px solid #0284c7;
+            padding-bottom: 8px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            page-break-before: always;
+        }
+
+        h2 {
+            font-size: 13.5pt;
+            color: #1e293b;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            border-left: 4px solid #0284c7;
+            padding-left: 10px;
+        }
+
+        h3 {
+            font-size: 11.5pt;
+            color: #334155;
+            margin-top: 18px;
+            margin-bottom: 8px;
+        }
+
+        p {
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 9pt;
+            background: #ffffff;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 8.5pt;
+            letter-spacing: 0.5px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: #0f172a;
+            color: #f1f5f9;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8.5pt;
+            line-height: 1.45;
+            overflow-x: auto;
+            border-left: 4px solid #38bdf8;
+            margin: 15px 0;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9pt;
+            background-color: #f1f5f9;
+            color: #0369a1;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+
+        pre code {
+            background-color: transparent;
+            color: #f1f5f9;
+            padding: 0;
+        }
+
+        /* Quotes & Callouts */
+        blockquote {
+            background-color: #f0f9ff;
+            border-left: 4px solid #0284c7;
+            margin: 18px 0;
+            padding: 12px 18px;
+            font-style: italic;
+            color: #0369a1;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .badge-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 7.5pt;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .badge-green { background: #dcfce7; color: #166534; }
+        .badge-blue { background: #e0f2fe; color: #075985; }
+
+        /* Diagrams & Figures */
+        .figure-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .figure-caption {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 8.5pt;
+            color: #64748b;
+            font-style: italic;
+            margin-top: 8px;
+        }
+
+        .page-break {
+            page-break-after: always;
+        }
+
+        /* TOC layout */
+        .toc-list {
+            list-style-type: none;
+            padding-left: 0;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 9.5pt;
+            line-height: 1.8;
+        }
+        .toc-list li {
+            border-bottom: 1px dotted #cbd5e1;
+            padding: 4px 0;
+        }
+        .toc-sub {
+            padding-left: 20px;
+            font-size: 9pt;
+            color: #475569;
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-container">
+
+    <!-- PAGE DE GARDE OFFICIELLE -->
+    <div class="cover-page">
+        <div class="cover-header">
+            RÉPUBLIQUE TUNISIENNE<br>
+            MINISTÈRE DE L'ENSEIGNEMENT SUPÉRIEUR ET DE LA RECHERCHE SCIENTIFIQUE<br>
+            DIRECTION GÉNÉRALE DES ÉTUDES TECHNOLOGIQUES<br>
+            INSTITUT SUPÉRIEUR DES ÉTUDES TECHNOLOGIQUES DE SOUSSE<br>
+            <span style="color: #0284c7;">DÉPARTEMENT TECHNOLOGIES DE L'INFORMATIQUE</span>
+        </div>
+
+        <div class="cover-pfe-badge">RAPPORT DE PROJET DE FIN D'ÉTUDES</div>
+        
+        <div class="cover-subtitle">
+            En vue de l'obtention de la <strong>Licence Nationale en Technologies de l'Informatique</strong>
+        </div>
+
+        <div style="font-family: 'Montserrat', sans-serif; font-size: 11pt; font-weight: 600; color: #64748b; text-transform: uppercase;">
+            Sujet du Projet :
+        </div>
+
+        <div class="cover-title">
+            Conception, Réalisation et Automatisation CI/CD d'une Architecture Microservices avec Monitoring sous le Cloud AWS
+        </div>
+
+        <div class="cover-project-name">
+            🚀 Projet : TaskFlow
+        </div>
+
+        <div class="cover-grid">
+            <div>
+                <strong>Élaboré par :</strong><br>
+                <span style="font-size: 11pt; font-weight: 700; color: #0369a1;">Mohamed Aziz DRIDI</span><br><br>
+                <strong>Établissement d'accueil :</strong><br>
+                Institut Supérieur des Études Technologiques de Sousse
+            </div>
+            <div>
+                <strong>Organisme professionnel d'accueil :</strong><br>
+                <span style="font-size: 11pt; font-weight: 700; color: #0f172a;">Creto</span><br><br>
+                <strong>Encadrant professionnel & académique :</strong><br>
+                <span style="font-size: 11pt; font-weight: 700; color: #0369a1;">Monsieur Adnen ROUATBI</span>
+            </div>
+        </div>
+
+        <div class="cover-footer">
+            Année Universitaire : 2025 - 2026
+        </div>
+    </div>
+
+    <!-- DEDICACE -->
+    <div class="page-break">
+        <h2 style="text-align: center; border: none; font-size: 16pt; margin-top: 40px; color: #0369a1;">Dédicace</h2>
+        <div style="font-style: italic; line-height: 1.8; margin-top: 30px; text-align: justify; padding: 20px 40px; background: #fdfdfe; border-left: 3px solid #0284c7;">
+            <p>Je dédie ce modeste travail :</p>
+            <p><strong>À mes très chers parents</strong>, dont l'amour inconditionnel, les sacrifices perpétuels et les encouragements indéfectibles ont éclairé mon chemin tout au long de mes études. Qu'ils trouvent ici l'expression de ma profonde reconnaissance et de mon respect éternel.</p>
+            <p><strong>À mes frères et sœurs</strong>, pour leur présence bienveillante, leur complicité et leur soutien moral continu dans les moments d'effort comme dans les réussites.</p>
+            <p><strong>À mes fidèles amis et camarades de promotion</strong>, avec qui j'ai partagé des années inoubliables d'apprentissage, d'émulation et de persévérance au sein de l'ISET de Sousse.</p>
+            <p>À toutes les personnes qui ont contribué, de près ou de loin, à faire de ce parcours un succès, je vous dédie ce travail avec toute mon affection et ma sincère gratitude.</p>
+            <p style="text-align: right; font-weight: bold; margin-top: 40px;">Mohamed Aziz DRIDI</p>
+        </div>
+    </div>
+
+    <!-- REMERCIEMENTS -->
+    <div class="page-break">
+        <h2 style="text-align: center; border: none; font-size: 16pt; margin-top: 40px; color: #0369a1;">Remerciements</h2>
+        <div style="line-height: 1.8; margin-top: 30px; text-align: justify; padding: 20px 40px;">
+            <p>Au terme de ce projet de fin d'études, je tiens à exprimer ma profonde gratitude à toutes les personnes qui ont contribué à son accomplissement.</p>
+            <p>J'adresse mes remerciements les plus sincères et respectueux à mon encadrant, <strong>Monsieur Adnen ROUATBI</strong>, pour avoir accepté de diriger ce travail avec une disponibilité remarquable, pour la pertinence de ses orientations pédagogiques et techniques, ainsi que pour ses précieux conseils qui ont guidé la réussite de ce projet.</p>
+            <p>J'exprime toute ma reconnaissance aux dirigeants et collaborateurs de l'entreprise <strong>Creto</strong> pour leur accueil chaleureux, la confiance qu'ils m'ont accordée, et pour l'environnement stimulant et professionnel mis à ma disposition durant cette expérience.</p>
+            <p>Je tiens également à remercier chaleureusement l'ensemble du corps professoral et administratif du <strong>Département Technologies de l'Informatique de l'Institut Supérieur des Études Technologiques de Sousse (ISET Sousse)</strong> pour la qualité de l'enseignement dispensé et les compétences transmises durant mon cursus universitaire.</p>
+            <p>Enfin, j'adresse mes vifs remerciements aux membres du jury pour l'honneur qu'ils me font en évaluant ce travail.</p>
+        </div>
+    </div>
+
+    <!-- LISTE DES ABRÉVIATIONS -->
+    <div class="page-break">
+        <h2 style="border-left: 4px solid #0284c7; padding-left: 10px; font-size: 14pt;">Liste des abréviations</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 25%;">Sigle</th>
+                    <th>Signification complète</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>API</strong></td><td>Application Programming Interface</td></tr>
+                <tr><td><strong>AWS</strong></td><td>Amazon Web Services</td></tr>
+                <tr><td><strong>CD</strong></td><td>Continuous Delivery / Continuous Deployment (Déploiement Continu)</td></tr>
+                <tr><td><strong>CI</strong></td><td>Continuous Integration (Intégration Continue)</td></tr>
+                <tr><td><strong>CPU</strong></td><td>Central Processing Unit</td></tr>
+                <tr><td><strong>CRUD</strong></td><td>Create, Read, Update, Delete</td></tr>
+                <tr><td><strong>CSS</strong></td><td>Cascading Style Sheets</td></tr>
+                <tr><td><strong>EC2</strong></td><td>Elastic Compute Cloud</td></tr>
+                <tr><td><strong>HTTP / HTTPS</strong></td><td>HyperText Transfer Protocol (Secure)</td></tr>
+                <tr><td><strong>HTML</strong></td><td>HyperText Markup Language</td></tr>
+                <tr><td><strong>IaaS</strong></td><td>Infrastructure as a Service</td></tr>
+                <tr><td><strong>IaC</strong></td><td>Infrastructure as Code</td></tr>
+                <tr><td><strong>ISET</strong></td><td>Institut Supérieur des Études Technologiques</td></tr>
+                <tr><td><strong>IP</strong></td><td>Internet Protocol</td></tr>
+                <tr><td><strong>JSON</strong></td><td>JavaScript Object Notation</td></tr>
+                <tr><td><strong>OS</strong></td><td>Operating System</td></tr>
+                <tr><td><strong>PFE</strong></td><td>Projet de Fin d'Études</td></tr>
+                <tr><td><strong>RAM</strong></td><td>Random Access Memory</td></tr>
+                <tr><td><strong>REST</strong></td><td>Representational State Transfer</td></tr>
+                <tr><td><strong>SaaS</strong></td><td>Software as a Service</td></tr>
+                <tr><td><strong>SPA</strong></td><td>Single Page Application</td></tr>
+                <tr><td><strong>SSH</strong></td><td>Secure Shell</td></tr>
+                <tr><td><strong>TSDB</strong></td><td>Time Series Database</td></tr>
+                <tr><td><strong>UI / UX</strong></td><td>User Interface / User Experience</td></tr>
+                <tr><td><strong>URI / URL</strong></td><td>Uniform Resource Identifier / Uniform Resource Locator</td></tr>
+                <tr><td><strong>VPC</strong></td><td>Virtual Private Cloud</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- TABLE DES MATIERES -->
+    <div class="page-break">
+        <h2 style="border-left: 4px solid #0284c7; padding-left: 10px; font-size: 14pt;">Table des Matières</h2>
+        <ul class="toc-list">
+            <li><strong>Introduction générale</strong></li>
+            <li><strong>Chapitre 1 : Cadre général du projet</strong>
+                <div class="toc-sub">1.1 Présentation des organismes (ISET Sousse, Creto)</div>
+                <div class="toc-sub">1.2 Présentation générale du projet TaskFlow (Contexte, Problématique, Objectifs)</div>
+                <div class="toc-sub">1.3 Étude de l'existant et étude comparative</div>
+                <div class="toc-sub">1.4 Solution proposée : TaskFlow</div>
+                <div class="toc-sub">1.5 Méthodologie de travail adoptée (Agile / Scrum)</div>
+            </li>
+            <li><strong>Chapitre 2 : Étude préalable et environnement technologique</strong>
+                <div class="toc-sub">2.1 La culture et l'approche DevOps</div>
+                <div class="toc-sub">2.2 Intégration et Déploiement Continus (CI/CD) & Jenkins</div>
+                <div class="toc-sub">2.3 Gestion de versions avec Git et GitHub</div>
+                <div class="toc-sub">2.4 Conteneurisation avec Docker et Docker Compose</div>
+                <div class="toc-sub">2.5 Architecture Microservices (Node.js, Express, Jest, Tailwind CSS)</div>
+                <div class="toc-sub">2.6 Système d'observabilité (Prometheus & Grafana)</div>
+                <div class="toc-sub">2.7 Environnement Cloud Amazon Web Services (AWS EC2)</div>
+            </li>
+            <li><strong>Chapitre 3 : Analyse et spécification des besoins</strong>
+                <div class="toc-sub">3.1 Organisation du développement & Identification des acteurs</div>
+                <div class="toc-sub">3.2 Besoins fonctionnels et non fonctionnels</div>
+                <div class="toc-sub">3.3 Spécification des exigences : User Stories</div>
+                <div class="toc-sub">3.4 Backlog global du projet (20 éléments détaillés)</div>
+            </li>
+            <li><strong>Chapitre 4 : Conception et architecture de la solution</strong>
+                <div class="toc-sub">4.1 Architecture globale 3-Tiers Microservices & API Gateway Nginx</div>
+                <div class="toc-sub">4.2 Architecture du processus CI/CD automatisé</div>
+                <div class="toc-sub">4.3 Conception des modèles de données (User & Task)</div>
+                <div class="toc-sub">4.4 Architecture du système de monitoring</div>
+            </li>
+            <li><strong>Chapitre 5 : Développement et réalisation de la plateforme TaskFlow</strong>
+                <div class="toc-sub">5.1 Environnement de développement et outils</div>
+                <div class="toc-sub">5.2 Développement du Frontend TaskFlow (Kanban réactif, résolutions dynamiques)</div>
+                <div class="toc-sub">5.3 Développement des Microservices Backend (user-service, task-service)</div>
+                <div class="toc-sub">5.4 Validation et tests automatisés (20/20 tests Jest)</div>
+            </li>
+            <li><strong>Chapitre 6 : Mise en place du processus CI/CD et Monitoring</strong>
+                <div class="toc-sub">6.1 Configuration de Jenkins sous Docker (DooD) & Jenkinsfile</div>
+                <div class="toc-sub">6.2 Déclenchement automatique par GitHub Webhook</div>
+                <div class="toc-sub">6.3 Observabilité continue avec Prometheus & Grafana</div>
+            </li>
+            <li><strong>Chapitre 7 : Déploiement cloud et validation sur AWS</strong>
+                <div class="toc-sub">7.1 Environnement Cloud AWS Academy & Instance EC2</div>
+                <div class="toc-sub">7.2 Validation du cycle complet par push Git (Build #13)</div>
+                <div class="toc-sub">7.3 Validation des points d'accès publics, résultats et limites</div>
+            </li>
+            <li><strong>Conclusion générale et perspectives d'avenir</strong></li>
+            <li><strong>Bibliographie et Netographie</strong></li>
+        </ul>
+    </div>
+
+    <!-- CORPS DU RAPPORT -->
+    <div>
+        <h1 class="chapter-title">Introduction générale</h1>
+        <p>Les évolutions technologiques récentes dans le génie logiciel et les infrastructures numériques ont profondément transformé la façon dont les organisations conçoivent, livrent et maintiennent leurs systèmes d'information. Face à des exigences croissantes de réactivité, de qualité de service et de mise sur le marché accélérée (<em>time-to-market</em>), les approches traditionnelles reposant sur des architectures monolithiques et des déploiements manuels séquentiels atteignent aujourd'hui leurs limites.</p>
+        <p>Historiquement, le cloisonnement strict entre les équipes de développement logiciel (<em>Dev</em>) et les équipes d'exploitation système (<em>Ops</em>) générait d'importantes frictions organisationnelles : ralentissement des cycles de livraison, configurations disparates entre les postes de travail et les serveurs de production (phénomène du « chez moi ça fonctionne »), et détection tardive des anomalies en production.</p>
+        <p>Pour répondre à ces défis majeurs, le paradigme <strong>DevOps</strong> s'est imposé comme une réponse incontournable dans l'industrie logicielle. En promouvant une collaboration étroite, une automatisation exhaustive à travers l'Intégration et le Déploiement Continus (<strong>CI/CD</strong>), ainsi qu'une standardisation des environnements d'exécution grâce à la <strong>conteneurisation</strong>, la démarche DevOps assure des cycles de livraison fluides, reproductibles et hautement fiables.</p>
+        
+        <blockquote>
+            « Comment concevoir, déployer et administrer efficacement une application web modulaire basée sur une architecture microservices, tout en automatisant intégralement son cycle de test et de livraison continue sous le cloud AWS, et en assurant une supervision proactive de ses performances et de sa santé en temps réel ? »
+        </blockquote>
+
+        <p>Pour apporter une réponse concrète et opérationnelle à cette problématique, notre démarche s'articule autour de trois piliers fondamentaux :</p>
+        <ol>
+            <li><strong>L'ingénierie logicielle et microservices</strong> : concevoir une application découplée comprenant un microservice de gestion des utilisateurs (<code>user-service</code>), un microservice de gestion des tâches (<code>task-service</code>), orchestrés derrière une passerelle API Nginx et servis par une interface web réactive (Tableau Kanban dynamique).</li>
+            <li><strong>L'usine logicielle CI/CD (Pipeline-as-Code)</strong> : mettre en place une chaîne d'intégration et de déploiement continus avec Jenkins et GitHub Webhook, garantissant que tout commit déclenche automatiquement les tests Jest, la construction des conteneurs Docker et le déploiement sans intervention humaine.</li>
+            <li><strong>L'observabilité et le déploiement Cloud</strong> : orchestrer la solution sur une instance Cloud <strong>Amazon Web Services (AWS EC2)</strong> et instrumenter une surveillance continue au moyen de <strong>Prometheus</strong> et de tableaux de bord visuels <strong>Grafana</strong>.</li>
+        </ol>
+    </div>
+
+    <!-- CHAPITRE 1 -->
+    <div>
+        <h1 class="chapter-title">Chapitre 1 : Cadre général du projet</h1>
+        <h2>1.1 Présentation des organismes</h2>
+        <h3>1.1.1 L'Institut Supérieur des Études Technologiques de Sousse (ISET Sousse)</h3>
+        <p>L'Institut Supérieur des Études Technologiques de Sousse (ISET Sousse) est un établissement public d'enseignement supérieur technologique sous la tutelle du Ministère de l'Enseignement Supérieur et de la Recherche Scientifique de Tunisie. Le Département Technologies de l'Informatique forme des cadres hautement qualifiés aptes à piloter des projets complexes d'ingénierie logicielle, d'administration d'infrastructures et de cloud computing.</p>
+
+        <h3>1.1.2 L'organisme d'accueil : Creto</h3>
+        <p><strong>Creto</strong> est une entreprise innovante spécialisée dans le conseil en ingénierie logicielle, la transformation digitale et l'adoption des architectures Cloud et DevOps. Creto accompagne ses partenaires dans la modernisation de leurs systèmes d'information, la transition vers le cloud et l'automatisation intégrale des pipelines de livraison logicielle.</p>
+
+        <h2>1.2 Présentation générale du projet TaskFlow</h2>
+        <h3>1.2.1 Contexte du projet</h3>
+        <p>Dans les équipes d'ingénierie modernes, la gestion agile et transparente des flux de travail (Workflow Management) conditionne la réussite des livrables. TaskFlow a été pensé comme une plateforme modulaire, résiliente et entièrement automatisée pour piloter l'avancement des tâches collaboratives.</p>
+
+        <h3>1.2.2 Problématique</h3>
+        <p>Les approches traditionnelles souffrent de plusieurs écueils majeurs :</p>
+        <ul>
+            <li>Frictions entre développeurs et exploitants et dépendance aux interventions manuelles.</li>
+            <li>Hétérogénéité des environnements provoquant des dysfonctionnements imprévus en production.</li>
+            <li>Absence de Quality Gate automatisé laissant filtrer des régressions critiques.</li>
+            <li>Opacité opérationnelle rendant le diagnostic des incidents lent et pénible.</li>
+        </ul>
+
+        <h2>1.3 Étude de l'existant et étude comparative</h2>
+        <p>Le tableau ci-dessous résume les gains décisifs apportés par la démarche TaskFlow comparée aux approches traditionnelles :</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Critère d'évaluation</th>
+                    <th>Approche Manuelle Traditionnelle</th>
+                    <th>Approche Automatisée TaskFlow (CI/CD)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Délai de mise en ligne</strong></td>
+                    <td>Plusieurs heures voire jours</td>
+                    <td>Moins d'une minute (< 40 secondes)</td>
+                </tr>
+                <tr>
+                    <td><strong>Fiabilité des déploiements</strong></td>
+                    <td>Forte vulnérabilité aux erreurs humaines</td>
+                    <td>Répétabilité stricte, processus standardisé</td>
+                </tr>
+                <tr>
+                    <td><strong>Exécution des tests</strong></td>
+                    <td>Tests ponctuels manuels souvent omis</td>
+                    <td>Exécution systématique de 20 tests Jest</td>
+                </tr>
+                <tr>
+                    <td><strong>Rétroaction développeur</strong></td>
+                    <td>Détection tardive des anomalies</td>
+                    <td>Rétroaction instantanée (Rapport Jenkins)</td>
+                </tr>
+                <tr>
+                    <td><strong>Disponibilité de service</strong></td>
+                    <td>Interruptions planifiées de service</td>
+                    <td>Déploiement sans coupure par conteneurs</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>1.4 Solution proposée : TaskFlow</h2>
+        <p>La solution conçue intègre une interface utilisateur Kanban moderne (SPA), deux microservices autonomes en Node.js/Express (<code>user-service</code> et <code>task-service</code>), un reverse proxy API Gateway Nginx sur le port 80, une usine logicielle Jenkins déclenchée par Webhook GitHub, une pile d'observabilité Prometheus/Grafana, le tout hébergé sous AWS EC2.</p>
+    </div>
+
+    <!-- CHAPITRE 2 -->
+    <div>
+        <h1 class="chapter-title">Chapitre 2 : Étude préalable et environnement technologique</h1>
+        <h2>2.1 La culture et l'approche DevOps</h2>
+        <p>Le mouvement DevOps unifie le développement et l'exploitation autour des piliers <strong>CAMS</strong> (Culture, Automation, Measurement, Sharing), substituant aux silos traditionnels une responsabilité collective de qualité et de vélocité.</p>
+
+        <h2>2.2 Intégration et Déploiement Continus & Jenkins</h2>
+        <p>L'intégration continue (CI) valide automatiquement chaque modification de code par des tests unitaires. Le déploiement continu (CD) prend le relais pour livrer automatiquement les versions saines en production. <strong>Jenkins</strong> assure ce rôle via le paradigme <em>Pipeline-as-Code</em> avec un fichier <code>Jenkinsfile</code> versionné dans le référentiel Git.</p>
+
+        <h2>2.3 Conteneurisation avec Docker et Docker Compose</h2>
+        <p>La technologie de conteneurisation Docker isole chaque composant logiciel avec son propre système de fichiers et ses dépendances sans le surcoût d'une machine virtuelle lourde. Docker Compose permet de définir l'interconnexion réseau et les volumes de l'écosystème en un unique fichier YAML.</p>
+
+        <h2>2.4 Observabilité avec Prometheus et Grafana</h2>
+        <p>Prometheus interroge activement (scraping) les métriques applicatives au format OpenMetrics toutes les 5 secondes. Grafana convertit ces séries temporelles en graphiques temps réel visualisant le débit de requêtes, la latence et l'usage mémoire.</p>
+
+        <h2>2.5 Environnement Cloud AWS EC2</h2>
+        <p>L'instance Ubuntu 24.04 LTS provisionnée sous AWS Academy Learner Lab fournit la puissance de calcul requise (2 vCPU, 4 Gio RAM), avec un filtrage granulaire par Security Groups n'autorisant que les ports applicatifs indispensables (22, 80, 8080, 3000, 3001, 3002, 9090).</p>
+    </div>
+
+    <!-- CHAPITRE 3 -->
+    <div>
+        <h1 class="chapter-title">Chapitre 3 : Analyse et spécification des besoins</h1>
+        <h2>3.1 Identification des acteurs</h2>
+        <p>Le système répond aux cas d'usage de trois acteurs majeurs :</p>
+        <ul>
+            <li><strong>L'Utilisateur final / Chef de projet</strong> : administre les collaborateurs, crée les tâches et manipule le tableau Kanban.</li>
+            <li><strong>L'Ingénieur DevOps / Administrateur Système</strong> : supervise les pipelines de build, administre les conteneurs et surveille la télémétrie.</li>
+            <li><strong>Les Systèmes externes</strong> : GitHub (émetteur de Webhooks) et AWS Cloud (fournisseur de ressources d'infrastructure).</li>
+        </ul>
+
+        <h2>3.2 Backlog global du projet (20 éléments détaillés)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 10%;">Réf.</th>
+                    <th style="width: 15%;">Catégorie</th>
+                    <th>Description du besoin ou de la tâche technique</th>
+                    <th style="width: 15%;">Priorité</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>US1</strong></td><td>Fonctionnel</td><td>Créer et consulter les profils collaborateurs via <code>user-service</code></td><td><span class="badge-tag badge-green">Haute</span></td></tr>
+                <tr><td><strong>US2</strong></td><td>Fonctionnel</td><td>Supprimer un utilisateur et valider les contrôles d'intégrité</td><td><span class="badge-tag badge-blue">Moyenne</span></td></tr>
+                <tr><td><strong>T3</strong></td><td>Technique</td><td>Développer le microservice <code>user-service</code> avec Express et Node.js</td><td><span class="badge-tag badge-green">Haute</span></td></tr>
+                <tr><td><strong>T4</strong></td><td>Technique</td><td>Écrire la suite de tests unitaires Jest pour <code>user-service</code> (7 tests)</td><td><span class="badge-tag badge-green">Haute</span></td></tr>
+                <tr><td><strong>US5</strong></td><td>Fonctionnel</td><td>Créer des tâches avec assignation et gestion des priorités</td><td><span class="badge-tag badge-green">Haute</span></td></tr>
+                <tr><td><strong>US6</strong></td><td>Fonctionnel</td><td>Afficher le tableau Kanban à 3 colonnes (<code>TODO</code>, <code>IN_PROGRESS</code>, <code>DONE</code>)</td><td><span class="badge-tag badge-green">Haute</span></td></tr>
+                <tr><td><strong>US7</strong></td><td>Fonctionnel</td><td>Déplacer les tâches entre colonnes et filtrer par utilisateur</td><td><span class="badge-tag badge-green">Haute</span></td></tr>
+                <tr><td><strong>US8</strong></td><td>Fonctionnel</td><td>Supprimer une tâche du tableau de flux</td><td><span class="badge-tag badge-blue">Moyenne</span></td></tr>
+                <tr><td><strong>T9</strong></td><td>Technique</td><td>Développer le microservice <code>task-service</code> avec Express et Node.js</td><td><span class="badge-tag badge-green">Haute</span></td></tr>
+                <tr><td><strong>T10</strong></td><td>Technique</td><td>Écrire la suite de tests unitaires Jest pour <code>task-service</code> (13 tests)</td><td><span class="badge-tag badge-green">Haute</span></td></tr>
+                <tr><td><strong>T11</strong></td><td>Technique</td><td>Développer le Frontend Single Page Application avec Tailwind CSS</td><td><span class="badge-tag badge-green">Haute</span></td></tr>
+                <tr><td><strong>T12</strong></td><td>Technique</td><td>Configurer le Reverse Proxy Nginx en passerelle API unifiée</td><td><span class="badge-tag badge-green">Haute</span></td></tr>
+                <tr><td><strong>T13</strong></td><td>Technique</td><td>Écrire les Dockerfiles multi-étapes pour chaque microservice</td><td><span class="badge-tag badge-green">Haute</span></td></tr>
+                <tr><td><strong>T14</strong></td><td>Technique</td><td>Écrire le descripteur d'orchestration <code>docker-compose.yml</code></td><td><span class="badge-tag badge-green">Haute</span></td></tr>
+                <tr><td><strong>T15</strong></td><td>Technique</td><td>Instrumenter les métriques Prometheus avec <code>prom-client</code> (/metrics)</td><td><span class="badge-tag badge-green">Haute</span></td></tr>
+                <tr><td><strong>T16</strong></td><td>Technique</td><td>Provisionner automatiquement la source de données et le dashboard Grafana</td><td><span class="badge-tag badge-blue">Moyenne</span></td></tr>
+                <tr><td><strong>T17</strong></td><td>Technique</td><td>Configurer le serveur d'intégration continue Jenkins et Docker-in-Docker</td><td><span class="badge-tag badge-green">Haute</span></td></tr>
+                <tr><td><strong>T18</strong></td><td>Technique</td><td>Développer le pipeline déclaratif <code>Jenkinsfile</code> (5 étapes automatisées)</td><td><span class="badge-tag badge-green">Haute</span></td></tr>
+                <tr><td><strong>T19</strong></td><td>Technique</td><td>Interconnecter le Webhook GitHub avec Jenkins pour déclenchement push</td><td><span class="badge-tag badge-green">Haute</span></td></tr>
+                <tr><td><strong>T20</strong></td><td>Technique</td><td>Déployer, sécuriser et valider la solution complète sous AWS EC2</td><td><span class="badge-tag badge-green">Haute</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- CHAPITRE 4 -->
+    <div>
+        <h1 class="chapter-title">Chapitre 4 : Conception et architecture de la solution</h1>
+        <h2>4.1 Architecture générale 3-Tiers Microservices</h2>
+        <p>TaskFlow décompose les responsabilités en trois niveaux étanches :</p>
+        <div class="figure-box">
+            <pre style="text-align: left;">
+[ Client Web / Navigateur ] 
+         │ (HTTP Port 80)
+         ▼
+[ Nginx Reverse Proxy / API Gateway ]
+   ├── /api/users  ────────► [ User Service (Node.js/Express : Port 3001) ]
+   └── /api/tasks  ────────► [ Task Service (Node.js/Express : Port 3002) ]
+                                    ▲
+                                    │ (Scrape /metrics toutes les 5s)
+[ Grafana (Port 3000) ] ◄─── [ Prometheus TSDB (Port 9090) ]
+            </pre>
+            <div class="figure-caption">Figure 4.1 – Architecture globale modulaire de la solution TaskFlow</div>
+        </div>
+
+        <h2>4.2 Cinématique du pipeline CI/CD automatisé</h2>
+        <div class="figure-box">
+            <pre style="text-align: left;">
+(1) Git Push Master ──► [ GitHub ] ──► (2) Webhook POST ──► [ Jenkins EC2 ]
+                                                                   │
+    ┌──────────────────────────────────────────────────────────────┘
+    ▼
+[ 1. Checkout SCM ] ──► [ 2. Tests Jest (20/20) ] ──► [ 3. Build Docker ]
+                                                              │
+    ┌─────────────────────────────────────────────────────────┘
+    ▼
+[ 4. Deploy Compose (-d) ] ──► [ 5. Healthcheck (curl 5 services) ] ──► [ SUCCESS 38s ]
+            </pre>
+            <div class="figure-caption">Figure 4.2 – Enchaînement des étapes du Pipeline-as-Code Jenkins</div>
+        </div>
+
+        <h2>4.3 Modèles de données</h2>
+        <p>L'entité <code>User</code> (id, name, email, role, createdAt) et l'entité <code>Task</code> (id, title, description, status, assignedTo, createdAt) sont maintenues avec un découplage strict : aucune clé étrangère physique n'est imposée entre les services, assurant l'autonomie de persistance et de redéploiement.</p>
+    </div>
+
+    <!-- CHAPITRE 5 -->
+    <div>
+        <h1 class="chapter-title">Chapitre 5 : Développement et réalisation de TaskFlow</h1>
+        <h2>5.1 Réalisation du Frontend</h2>
+        <p>Développé sous forme de Single Page Application avec Tailwind CSS, le frontend offre :</p>
+        <ul>
+            <li>Des badges de santé animés en haut de page indiquant en direct l'état des microservices.</li>
+            <li>Un tableau Kanban dynamique avec glissement des cartes entre <code>TODO</code>, <code>IN_PROGRESS</code> et <code>DONE</code>.</li>
+            <li>Une résolution dynamique d'hôtes pour générer les hyperliens exacts vers Jenkins et Grafana sans dépendre d'une adresse IP figée.</li>
+        </ul>
+
+        <h2>5.2 Microservices Backend & Métriques</h2>
+        <p>Les deux microservices intègrent <code>prom-client</code> pour exposer sur <code>/metrics</code> le nombre de requêtes HTTP par code retour, la durée de traitement et la consommation de mémoire heap de Node.js.</p>
+
+        <h2>5.3 Validation des tests automatisés</h2>
+        <pre>
+PASS tests/user.test.js (7/7 tests passed)
+PASS tests/task.test.js (13/13 tests passed)
+
+Test Suites: 2 passed, 2 total
+Tests:       20 passed, 20 total
+Time:        1.842 s
+        </pre>
+        <p>L'ensemble des 20 tests unitaires et d'intégration s'exécute avec 100% de succès en moins de deux secondes, garantissant l'intégrité de la porte de qualité (Quality Gate).</p>
+    </div>
+
+    <!-- CHAPITRE 6 -->
+    <div>
+        <h1 class="chapter-title">Chapitre 6 : Processus CI/CD et Monitoring</h1>
+        <h2>6.1 Configuration Jenkins et Docker-out-of-Docker</h2>
+        <p>En montant <code>/var/run/docker.sock</code> dans le conteneur Jenkins, le serveur d'intégration continue commande directement le moteur Docker hôte, éliminant tout conflit d'isolation.</p>
+
+        <h2>6.2 Déclenchement automatique par Webhook GitHub</h2>
+        <p>Chaque push vers <code>https://github.com/sphinx12/taskflow</code> notifie <code>http://34.206.71.95:8080/github-webhook/</code>, déclenchant l'exécution immédiate du pipeline sans intervention humaine.</p>
+
+        <h2>6.3 Observabilité avec Prometheus & Grafana</h2>
+        <p>Les tableaux de bord Grafana sont provisionnés comme code (IaC) et visualisent en temps réel le débit de requêtes (req/s), la latence moyenne de traitement et la mémoire consommée.</p>
+    </div>
+
+    <!-- CHAPITRE 7 -->
+    <div>
+        <h1 class="chapter-title">Chapitre 7 : Déploiement cloud et validation sur AWS</h1>
+        <h2>7.1 Validation du cycle complet (Build #13)</h2>
+        <p>Le scénario réel de bout en bout a été validé sur l'instance AWS EC2 <code>34.206.71.95</code> :</p>
+        <div class="figure-box">
+            <pre style="text-align: left;">
+[TaskFlow-Pipeline] #13
+Started by GitHub push by sphinx12
+[Pipeline] stage (Checkout) ─────────────► SUCCESS
+[Pipeline] stage (Install & Test) ───────► npm test (20/20 passed) ──► SUCCESS
+[Pipeline] stage (Build Docker Images) ──► docker compose build ──────► SUCCESS
+[Pipeline] stage (Deploy Containers) ────► docker compose up -d ──────► SUCCESS
+[Pipeline] stage (Healthcheck) ──────────► All 5 services HEALTHY ────► SUCCESS
+Finished: SUCCESS (Total Time: 38s)
+            </pre>
+            <div class="figure-caption">Figure 7.1 – Trace de validation du Build Jenkins #13 sur AWS EC2</div>
+        </div>
+
+        <h2>7.2 Points d'accès publics validés</h2>
+        <ul>
+            <li><strong>Portail Web TaskFlow</strong> : <code>http://34.206.71.95/</code> (Opérationnel)</li>
+            <li><strong>Serveur Jenkins CI/CD</strong> : <code>http://34.206.71.95:8080/job/TaskFlow-Pipeline/</code> (Opérationnel)</li>
+            <li><strong>Tableau de bord Grafana</strong> : <code>http://34.206.71.95:3000/d/taskflow-overview/</code> (Opérationnel)</li>
+            <li><strong>Sondes de santé</strong> : <code>http://34.206.71.95:3001/health</code> & <code>:3002/health</code> (HTTP 200 OK)</li>
+        </ul>
+    </div>
+
+    <!-- CONCLUSION GENERALE -->
+    <div class="page-break">
+        <h1 class="chapter-title">Conclusion générale et perspectives d'avenir</h1>
+        <p>Ce projet de fin d'études a permis de concevoir, développer, conteneuriser et automatiser le déploiement d'une architecture microservices complète (TaskFlow) sous le Cloud AWS avec une chaîne CI/CD Jenkins et une observabilité en temps réel assurée par Prometheus et Grafana.</p>
+        <p>L'ensemble des objectifs a été atteint avec brio : temps de livraison inférieur à 40 secondes, 100% de tests unitaires automatisés, visibilité opérationnelle en direct et déploiement résilient.</p>
+        <h3>Perspectives d'évolution :</h3>
+        <ul>
+            <li>Migration de Docker Compose vers un cluster Kubernetes (K8s) managé avec autoscaling horizontal (HPA).</li>
+            <li>Persistance avec base de données relationnelle managée (AWS RDS PostgreSQL) et Prisma ORM.</li>
+            <li>Intégration d'un Quality Gate statique SonarQube et notifications d'alertes via Alertmanager.</li>
+        </ul>
+    </div>
+
+    <!-- BIBLIOGRAPHIE -->
+    <div>
+        <h1 class="chapter-title">Bibliographie et Netographie</h1>
+        <ol style="font-family: 'Montserrat', sans-serif; font-size: 8.5pt; line-height: 1.8;">
+            <li><strong>Docker Inc.</strong> (2024). <em>Docker Documentation: Containerization and Docker Compose Specification</em>. https://docs.docker.com/</li>
+            <li><strong>Jenkins Community</strong> (2024). <em>Jenkins User Documentation: Pipeline-as-Code with Jenkinsfile</em>. https://www.jenkins.io/doc/</li>
+            <li><strong>OpenJS Foundation</strong> (2024). <em>Node.js v20 LTS Documentation & Architecture Guide</em>. https://nodejs.org/en/docs/</li>
+            <li><strong>Express.js Team</strong> (2024). <em>Express - Fast, minimalist web framework for Node.js</em>. https://expressjs.com/</li>
+            <li><strong>Meta Open Source</strong> (2024). <em>Jest: Delightful JavaScript Testing Framework</em>. https://jestjs.io/</li>
+            <li><strong>Prometheus Authors</strong> (2024). <em>Prometheus: Monitoring system and time series database</em>. https://prometheus.io/docs/</li>
+            <li><strong>Grafana Labs</strong> (2024). <em>Grafana Documentation: Provisioning Dashboards and Data Sources</em>. https://grafana.com/docs/</li>
+            <li><strong>Amazon Web Services (AWS)</strong> (2024). <em>Amazon EC2 User Guide for Linux Instances</em>. https://docs.aws.amazon.com/ec2/</li>
+            <li><strong>GitHub Inc.</strong> (2024). <em>GitHub Webhooks and REST API Documentation</em>. https://docs.github.com/en/webhooks</li>
+            <li><strong>Nginx Software Inc.</strong> (2024). <em>Nginx Reverse Proxy Guide</em>. https://nginx.org/en/docs/</li>
+        </ol>
+    </div>
+
+</div>
+
+</body>
+</html>

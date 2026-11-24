@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soutenance PFE — TaskFlow — Mohamed Aziz Dridi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0b0f19;
+            color: #f8fafc;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide-container {
+            width: 90vw;
+            max-width: 1100px;
+            height: 82vh;
+            background: linear-gradient(145deg, #131b2e, #0f172a);
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 40px 50px;
+            position: relative;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .slide-container.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #0284c7;
+            padding-bottom: 12px;
+        }
+
+        .slide-title {
+            font-size: 20pt;
+            font-weight: 800;
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .slide-subtitle {
+            font-size: 11pt;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        .slide-body {
+            flex-grow: 1;
+            padding: 25px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-size: 13pt;
+            line-height: 1.6;
+        }
+
+        .slide-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #1e293b;
+            padding-top: 12px;
+            font-size: 9.5pt;
+            color: #64748b;
+        }
+
+        /* Specific Slide Designs */
+        .title-slide {
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .main-badge {
+            background: #0284c7;
+            color: #ffffff;
+            font-size: 11pt;
+            font-weight: 800;
+            padding: 6px 18px;
+            border-radius: 20px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .main-title {
+            font-size: 26pt;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.25;
+            max-width: 900px;
+        }
+
+        .main-title span {
+            color: #38bdf8;
+        }
+
+        .speaker-box {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 30px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid #1e293b;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 11pt;
+        }
+
+        .speaker-box div {
+            text-align: left;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            align-items: stretch;
+        }
+
+        .card {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid #1e293b;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .card-red { border-left: 4px solid #ef4444; }
+        .card-green { border-left: 4px solid #10b981; }
+        .card-blue { border-left: 4px solid #0284c7; }
+
+        .card h4 {
+            font-size: 13pt;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background: #090d16;
+            color: #38bdf8;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10pt;
+            overflow-x: auto;
+            border-left: 3px solid #0284c7;
+        }
+
+        /* Controls */
+        .nav-controls {
+            position: fixed;
+            bottom: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            padding: 8px 18px;
+            border-radius: 30px;
+            z-index: 100;
+        }
+
+        button {
+            background: #0284c7;
+            color: #fff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #38bdf8;
+            color: #0f172a;
+        }
+
+        .speaker-notes-toggle {
+            font-size: 8.5pt;
+            background: #334155;
+        }
+
+        .speaker-notes {
+            display: none;
+            position: fixed;
+            bottom: 75px;
+            background: #1e293b;
+            color: #f1f5f9;
+            padding: 15px 20px;
+            border-radius: 8px;
+            width: 80vw;
+            max-width: 900px;
+            border: 1px solid #38bdf8;
+            font-size: 10pt;
+            z-index: 99;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .speaker-notes.visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SLIDE 1: TITRE -->
+    <div class="slide-container active title-slide" id="slide-1">
+        <div class="main-badge">Soutenance de Projet de Fin d'Études</div>
+        <div class="main-title">
+            Conception, Réalisation & Automatisation CI/CD d'une Architecture <span>Microservices</span> sous le <span>Cloud AWS</span>
+        </div>
+        <div style="font-size: 15pt; color: #94a3b8; font-weight: 600;">Plateforme Collaborative : TaskFlow</div>
+        <div class="speaker-box">
+            <div>
+                <span style="color: #64748b;">Candidat :</span><br>
+                <strong style="color: #38bdf8; font-size: 13pt;">Mohamed Aziz DRIDI</strong><br>
+                <span>ISET Sousse — Informatique</span>
+            </div>
+            <div>
+                <span style="color: #64748b;">Entreprise d'accueil :</span><br>
+                <strong style="color: #ffffff; font-size: 13pt;">Creto</strong><br>
+                <span>Technologies Cloud & DevOps</span>
+            </div>
+            <div>
+                <span style="color: #64748b;">Encadrant :</span><br>
+                <strong style="color: #38bdf8; font-size: 13pt;">M. Adnen ROUATBI</strong><br>
+                <span>Encadrant Professionnel / Académique</span>
+            </div>
+        </div>
+        <div class="slide-footer" style="width: 100%;">
+            <span>Institut Supérieur des Études Technologiques de Sousse</span>
+            <span>Année Universitaire 2025 - 2026</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: PLAN -->
+    <div class="slide-container" id="slide-2">
+        <div class="slide-header">
+            <div class="slide-title">📌 Plan de la Présentation</div>
+            <div class="slide-subtitle">Structure de soutenance (15 min)</div>
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="card card-blue">
+                    <h4>Partie 1 : Cadrage & Analyse</h4>
+                    <ul>
+                        <li>1. Contexte, Organismes & Problématique</li>
+                        <li>2. Objectifs fixés & Étude comparative</li>
+                        <li>3. Spécification des besoins & Backlog (20 éléments)</li>
+                        <li>4. Architecture globale 3-Tiers Microservices</li>
+                    </ul>
+                </div>
+                <div class="card card-green">
+                    <h4>Partie 2 : Réalisation & Déploiement</h4>
+                    <ul>
+                        <li>5. Réalisation Frontend & Microservices (20 tests Jest)</li>
+                        <li>6. Pipeline CI/CD Jenkins & GitHub Webhook</li>
+                        <li>7. Observabilité en direct (Prometheus & Grafana)</li>
+                        <li>8. Déploiement AWS EC2 & Démonstration Live</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TaskFlow — Mohamed Aziz Dridi</span>
+            <span>Slide 2 / 14</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: PROBLEMATIQUE -->
+    <div class="slide-container" id="slide-3">
+        <div class="slide-header">
+            <div class="slide-title">⚠️ Contexte & Problématique</div>
+            <div class="slide-subtitle">Pourquoi l'approche DevOps pour TaskFlow ?</div>
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="card card-red">
+                    <h4 style="color: #ef4444;">Les Limites de l'Existant (Avant DevOps)</h4>
+                    <ul>
+                        <li><strong>Cloisonnement Dev / Ops</strong> : « Chez moi ça marche » mais échec en production.</li>
+                        <li><strong>Déploiements manuels pénibles</strong> : Plusieurs heures, erreurs humaines fréquentes.</li>
+                        <li><strong>Tests oubliés</strong> : Pas de Quality Gate automatisé avant mise en ligne.</li>
+                        <li><strong>Opacité opérationnelle</strong> : Pas de visibilité sur les pannes ni les performances.</li>
+                    </ul>
+                </div>
+                <div class="card card-green">
+                    <h4 style="color: #10b981;">La Réponse TaskFlow</h4>
+                    <ul>
+                        <li><strong>Microservices autonomes</strong> : Découplage complet User Service et Task Service.</li>
+                        <li><strong>Conteneurisation Docker</strong> : Environnement strictement identique dev/prod.</li>
+                        <li><strong>CI/CD automatisé</strong> : Déploiement en moins de 40 secondes à chaque git push.</li>
+                        <li><strong>Supervision temps réel</strong> : Métriques Prometheus et tableaux de bord Grafana.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TaskFlow — Mohamed Aziz Dridi</span>
+            <span>Slide 3 / 14</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: ARCHITECTURE GLOBALE -->
+    <div class="slide-container" id="slide-4">
+        <div class="slide-header">
+            <div class="slide-title">🏗️ Architecture Globale de la Solution</div>
+            <div class="slide-subtitle">Modèle 3-Tiers Microservices & API Gateway</div>
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="card card-blue">
+                    <h4>Topologie Réseau & Rôles</h4>
+                    <ul>
+                        <li><strong>Client Web (Navigateur)</strong> : Point d'accès unique sur le port 80.</li>
+                        <li><strong>Nginx Reverse Proxy</strong> : Sert le SPA Frontend et route <code>/api/users</code> et <code>/api/tasks</code>.</li>
+                        <li><strong>User Service</strong> : Port 3001 (Node.js/Express, /health, /metrics).</li>
+                        <li><strong>Task Service</strong> : Port 3002 (Node.js/Express, /health, /metrics).</li>
+                        <li><strong>Isolation Réseau</strong> : Réseau Docker Bridge interne.</li>
+                    </ul>
+                </div>
+                <div>
+                    <pre>
+[ Client Web ] 
+     │ (Port 80 HTTP)
+     ▼
+[ Nginx Reverse Proxy / SPA ]
+   ├── /api/users ──► [ User Service :3001 ]
+   └── /api/tasks ──► [ Task Service :3002 ]
+                             ▲
+                             │ (Scrape /metrics 5s)
+[ Grafana :3000 ] ◄── [ Prometheus :9090 ]
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TaskFlow — Mohamed Aziz Dridi</span>
+            <span>Slide 4 / 14</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: BACKEND MICROSERVICES -->
+    <div class="slide-container" id="slide-5">
+        <div class="slide-header">
+            <div class="slide-title">⚙️ Réalisation Backend & Qualité Logicielle</div>
+            <div class="slide-subtitle">Microservices Express & Tests Automatisés Jest</div>
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="card card-blue">
+                    <h4>Points d'API & Séparation</h4>
+                    <ul>
+                        <li><code>user-service</code> : CRUD complet collaborateurs, validation d'intégrité, format e-mail.</li>
+                        <li><code>task-service</code> : CRUD tâches, statuts <code>TODO</code>, <code>IN_PROGRESS</code>, <code>DONE</code>, filtres dynamiques.</li>
+                        <li>Chaque service expose <code>/health</code> et <code>/metrics</code> (OpenMetrics).</li>
+                    </ul>
+                </div>
+                <div class="card card-green">
+                    <h4 style="color: #10b981;">100% de Tests Validés (Quality Gate)</h4>
+                    <pre>
+PASS tests/user.test.js (7 tests)
+PASS tests/task.test.js (13 tests)
+
+Test Suites: 2 passed, 2 total
+Tests:       20 passed, 20 total
+Time:        1.842 s
+                    </pre>
+                    <p style="font-size: 10pt; color: #94a3b8; margin-top: 10px;">
+                        ✓ Aucun code n'est déployé si 1 seul test échoue.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TaskFlow — Mohamed Aziz Dridi</span>
+            <span>Slide 5 / 14</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: FRONTEND & KANBAN -->
+    <div class="slide-container" id="slide-6">
+        <div class="slide-header">
+            <div class="slide-title">💻 Interface Utilisateur TaskFlow</div>
+            <div class="slide-subtitle">Tableau Kanban Réactif & Console DevOps</div>
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="card card-blue">
+                    <h4>Fonctionnalités Clés du Frontend</h4>
+                    <ul>
+                        <li><strong>Single Page Application (SPA)</strong> avec Tailwind CSS.</li>
+                        <li><strong>Badges de Santé Animés</strong> : Pastilles vertes en direct interrogeant <code>/health</code>.</li>
+                        <li><strong>Tableau Kanban Interactif</strong> : Transition d'état fluide en un clic.</li>
+                        <li><strong>Modale d'Ajout</strong> : Création de tâches et affectation instantanée.</li>
+                    </ul>
+                </div>
+                <div class="card card-green">
+                    <h4 style="color: #38bdf8;">Résolution Dynamique d'Hôte</h4>
+                    <p style="font-size: 11pt;">Pour s'adapter aux changements d'IP sur AWS Learner Lab :</p>
+                    <pre>
+const host = window.location.hostname;
+const jenkins = `http://${host}:8080/...`;
+const grafana = `http://${host}:3000/...`;
+                    </pre>
+                    <p style="font-size: 10pt; color: #94a3b8; margin-top: 10px;">
+                        Les liens DevOps restent toujours valides sans reconfiguration manuelle.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TaskFlow — Mohamed Aziz Dridi</span>
+            <span>Slide 6 / 14</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: USINE LOGICIELLE JENKINS -->
+    <div class="slide-container" id="slide-7">
+        <div class="slide-header">
+            <div class="slide-title">🔄 Usine Logicielle CI/CD (Jenkins)</div>
+            <div class="slide-subtitle">Pipeline-as-Code & Docker-out-of-Docker</div>
+        </div>
+        <div class="slide-body">
+            <div class="card card-blue">
+                <h4>Les 5 Étapes du Jenkinsfile Déclaratif</h4>
+                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 15px; text-align: center;">
+                    <div style="background: #090d16; padding: 12px; border-radius: 8px; border-top: 3px solid #38bdf8;">
+                        <strong style="color: #38bdf8;">1. Checkout</strong><br>
+                        <span style="font-size: 9pt; color: #94a3b8;">Clone Git SCM</span>
+                    </div>
+                    <div style="background: #090d16; padding: 12px; border-radius: 8px; border-top: 3px solid #10b981;">
+                        <strong style="color: #10b981;">2. Tests</strong><br>
+                        <span style="font-size: 9pt; color: #94a3b8;">20 tests Jest</span>
+                    </div>
+                    <div style="background: #090d16; padding: 12px; border-radius: 8px; border-top: 3px solid #f59e0b;">
+                        <strong style="color: #f59e0b;">3. Build</strong><br>
+                        <span style="font-size: 9pt; color: #94a3b8;">Images Docker</span>
+                    </div>
+                    <div style="background: #090d16; padding: 12px; border-radius: 8px; border-top: 3px solid #6366f1;">
+                        <strong style="color: #6366f1;">4. Deploy</strong><br>
+                        <span style="font-size: 9pt; color: #94a3b8;">docker compose</span>
+                    </div>
+                    <div style="background: #090d16; padding: 12px; border-radius: 8px; border-top: 3px solid #10b981;">
+                        <strong style="color: #10b981;">5. Health</strong><br>
+                        <span style="font-size: 9pt; color: #94a3b8;">curl 5 services</span>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 20px; font-size: 11pt; color: #94a3b8;">
+                ⚡ <strong>Docker-out-of-Docker :</strong> Montage du socket hôte <code>/var/run/docker.sock</code> permettant à Jenkins d'ordonnancer les conteneurs sous AWS sans instabilité.
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TaskFlow — Mohamed Aziz Dridi</span>
+            <span>Slide 7 / 14</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: GITHUB WEBHOOK -->
+    <div class="slide-container" id="slide-8">
+        <div class="slide-header">
+            <div class="slide-title">⚡ Déclencheur Temps Réel : GitHub Webhook</div>
+            <div class="slide-subtitle">Automatisation intégrale sans intervention humaine</div>
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="card card-blue">
+                    <h4>Fonctionnement de l'Interconnexion</h4>
+                    <ul>
+                        <li>Événement : <code>git push origin master</code></li>
+                        <li>Cible Webhook : <code>http://34.206.71.95:8080/github-webhook/</code></li>
+                        <li>Charge utile : JSON HTTP POST</li>
+                        <li>Statut GitHub : <strong style="color: #10b981;">200 OK (Ping vert)</strong></li>
+                    </ul>
+                </div>
+                <div class="card card-green">
+                    <h4 style="color: #10b981;">Bénéfice Opérationnel</h4>
+                    <p>Le développeur n'a jamais besoin de se connecter à la console Jenkins ni au serveur AWS :</p>
+                    <blockquote style="margin: 10px 0; font-size: 11pt; color: #38bdf8;">
+                        « Chaque commit est testé, compilé, déployé et validé en 38 secondes de manière autonome. »
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TaskFlow — Mohamed Aziz Dridi</span>
+            <span>Slide 8 / 14</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 9: OBSERVABILITE PROMETHEUS GRAFANA -->
+    <div class="slide-container" id="slide-9">
+        <div class="slide-header">
+            <div class="slide-title">📊 Observabilité : Prometheus & Grafana</div>
+            <div class="slide-subtitle">Surveillance continue et tableaux de bord pré-provisionnés</div>
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="card card-blue">
+                    <h4>Prometheus (Scraping actif)</h4>
+                    <ul>
+                        <li>Intervalle de collecte : <strong>Toutes les 5 secondes</strong>.</li>
+                        <li>Cibles : <code>user-service:3001</code> et <code>task-service:3002</code>.</li>
+                        <li>Infrastructure immuable : <code>prometheus.yml</code> embarqué directement dans l'image.</li>
+                    </ul>
+                </div>
+                <div class="card card-green">
+                    <h4>Grafana (Visualisation IaC)</h4>
+                    <ul>
+                        <li><strong>Dashboard pré-provisionné</strong> automatique (zéro clic).</li>
+                        <li>Statuts UP/DOWN en direct.</li>
+                        <li>Débit de requêtes (Throughput req/s via PromQL).</li>
+                        <li>Latence moyenne et mémoire RAM Node.js heap.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TaskFlow — Mohamed Aziz Dridi</span>
+            <span>Slide 9 / 14</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 10: DEPLOIEMENT AWS EC2 -->
+    <div class="slide-container" id="slide-10">
+        <div class="slide-header">
+            <div class="slide-title">☁️ Déploiement Cloud sur AWS EC2</div>
+            <div class="slide-subtitle">Infrastructure de Production Sécurisée</div>
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="card card-blue">
+                    <h4>Spécifications de l'Instance</h4>
+                    <ul>
+                        <li><strong>Plateforme</strong> : AWS Academy Learner Lab (us-east-1).</li>
+                        <li><strong>Instance ID</strong> : <code>i-0f9153778f0e168f7</code>.</li>
+                        <li><strong>OS</strong> : Ubuntu Server 24.04 LTS (x86_64).</li>
+                        <li><strong>Type</strong> : <code>t3.medium</code> (2 vCPU, 4 Gio RAM, 30 Gio SSD).</li>
+                        <li><strong>IP Publique</strong> : <code>34.206.71.95</code></li>
+                    </ul>
+                </div>
+                <div class="card card-green">
+                    <h4>Ports Sécurisés (Security Group)</h4>
+                    <ul>
+                        <li><strong>Port 22</strong> : SSH RSA (Administration sécurisée)</li>
+                        <li><strong>Port 80</strong> : HTTP Web Frontend & Gateway Nginx</li>
+                        <li><strong>Port 8080</strong> : Jenkins CI/CD & GitHub Webhook</li>
+                        <li><strong>Port 3000</strong> : Tableaux de bord Grafana</li>
+                        <li><strong>Ports 3001, 3002, 9090</strong> : Microservices & Prometheus</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TaskFlow — Mohamed Aziz Dridi</span>
+            <span>Slide 10 / 14</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 11: VALIDATION DU BUILD 13 -->
+    <div class="slide-container" id="slide-11">
+        <div class="slide-header">
+            <div class="slide-title">✅ Validation Bout en Bout (Build #13)</div>
+            <div class="slide-subtitle">Preuve de fonctionnement de la chaîne CI/CD sous AWS</div>
+        </div>
+        <div class="slide-body">
+            <pre>
+[TaskFlow-Pipeline] #13
+Started by GitHub push by sphinx12
+[Pipeline] stage (Checkout) ─────────────► SUCCESS
+[Pipeline] stage (Install & Test) ───────► npm test (20/20 passed) ──► SUCCESS
+[Pipeline] stage (Build Docker Images) ──► docker compose build ──────► SUCCESS
+[Pipeline] stage (Deploy Containers) ────► docker compose up -d ──────► SUCCESS
+[Pipeline] stage (Healthcheck) ──────────► All 5 services HEALTHY ────► SUCCESS
+Finished: SUCCESS (Durée totale : 38s)
+            </pre>
+            <div style="margin-top: 15px; font-size: 11pt; color: #10b981; font-weight: 600;">
+                ✓ Les 5 conteneurs (Frontend, UserService, TaskService, Prometheus, Grafana) sont déployés et validés automatiquement.
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TaskFlow — Mohamed Aziz Dridi</span>
+            <span>Slide 11 / 14</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 12: SCENARIO DEMO JURY -->
+    <div class="slide-container" id="slide-12">
+        <div class="slide-header">
+            <div class="slide-title">🎬 Démonstration Pratique devant le Jury</div>
+            <div class="slide-subtitle">Scénario de Démonstration en Direct (5 min)</div>
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="card card-blue">
+                    <h4>Étape 1 : Fonctionnel & Kanban</h4>
+                    <ul>
+                        <li>Ouvrir le portail public : <code>http://34.206.71.95/</code></li>
+                        <li>Vérifier les badges de santé en vert.</li>
+                        <li>Créer un utilisateur et ajouter une tâche.</li>
+                        <li>Déplacer la tâche sur le Kanban (TODO -> DONE).</li>
+                    </ul>
+                </div>
+                <div class="card card-green">
+                    <h4>Étape 2 : DevOps & Observabilité</h4>
+                    <ul>
+                        <li>Ouvrir Jenkins : <code>http://34.206.71.95:8080/</code></li>
+                        <li>Montrer le Webhook et le Build #13 au vert.</li>
+                        <li>Ouvrir Grafana : <code>http://34.206.71.95:3000/</code></li>
+                        <li>Constater le pic de requêtes en direct (throughput).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TaskFlow — Mohamed Aziz Dridi</span>
+            <span>Slide 12 / 14</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 13: LIMITES ET PERSPECTIVES -->
+    <div class="slide-container" id="slide-13">
+        <div class="slide-header">
+            <div class="slide-title">🔭 Bilan, Limites & Perspectives d'Avenir</div>
+            <div class="slide-subtitle">Évolutions vers un produit d'Entreprise</div>
+        </div>
+        <div class="slide-body">
+            <div class="grid-2">
+                <div class="card card-red">
+                    <h4 style="color: #ef4444;">Limites Actuelles</h4>
+                    <ul>
+                        <li>Hébergement sur une seule instance EC2 (SPOF matériel).</li>
+                        <li>Session AWS Learner Lab limitée à 4 heures.</li>
+                        <li>Stockage en mémoire pour le prototype actuel.</li>
+                    </ul>
+                </div>
+                <div class="card card-green">
+                    <h4 style="color: #10b981;">Perspectives d'Évolution</h4>
+                    <ul>
+                        <li><strong>Kubernetes (K8s/K3s)</strong> : Auto-scaling horizontal (HPA).</li>
+                        <li><strong>Persistance relationnelle</strong> : PostgreSQL + Prisma sous AWS RDS.</li>
+                        <li><strong>Sécurité HTTPS</strong> : Certificats SSL automatiques Let's Encrypt.</li>
+                        <li><strong>Analyse Statique</strong> : SonarQube & alertes Alertmanager.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>TaskFlow — Mohamed Aziz Dridi</span>
+            <span>Slide 13 / 14</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 14: CONCLUSION -->
+    <div class="slide-container title-slide" id="slide-14">
+        <div class="main-badge" style="background: #10b981;">Conclusion Générale</div>
+        <div class="main-title" style="font-size: 24pt;">
+            TaskFlow : Une Réalisation Concrète, Moderne & Validée sous le <span>Cloud AWS</span>
+        </div>
+        <p style="font-size: 14pt; color: #94a3b8; max-width: 800px; line-height: 1.6;">
+            Ce projet m'a permis de maîtriser l'ensemble de la chaîne DevOps contemporaine : de la conception logicielle découplée jusqu'à la livraison continue et la supervision proactive en production.
+        </p>
+        <div style="margin-top: 25px; font-size: 16pt; font-weight: 800; color: #38bdf8;">
+            Merci pour votre attention !<br>
+            <span style="font-size: 13pt; color: #f8fafc; font-weight: 500;">Je suis maintenant à votre disposition pour vos questions et la démonstration.</span>
+        </div>
+        <div class="slide-footer" style="width: 100%;">
+            <span>Mohamed Aziz DRIDI — ISET Sousse / Creto</span>
+            <span>Slide 14 / 14</span>
+        </div>
+    </div>
+
+    <!-- NAVIGATION CONTROLS -->
+    <div class="nav-controls">
+        <button onclick="prevSlide()">◀ Précédent</button>
+        <span id="slide-counter" style="font-weight: 700; color: #38bdf8; font-size: 10pt;">1 / 14</span>
+        <button onclick="nextSlide()">Suivant ▶</button>
+        <button class="speaker-notes-toggle" onclick="toggleNotes()">📝 Notes Orateur</button>
+    </div>
+
+    <!-- SPEAKER NOTES MODAL -->
+    <div class="speaker-notes" id="speaker-notes">
+        <strong style="color: #38bdf8;">Notes pour l'orateur :</strong>
+        <div id="notes-content" style="margin-top: 6px;"></div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 14;
+
+        const speakerNotesData = {
+            1: "Bonjour messieurs les membres du jury, monsieur l'encadrant. Je m'appelle Mohamed Aziz Dridi, étudiant à l'ISET Sousse. J'ai le plaisir de vous présenter aujourd'hui mon projet de fin d'études réalisé au sein de l'entreprise Creto, sous la direction de M. Adnen Rouatbi. Mon projet porte sur la conception, la réalisation et l'automatisation CI/CD d'une architecture microservices avec monitoring sous AWS, à travers la plateforme TaskFlow.",
+            2: "Notre soutenance s'articule en deux grandes parties : d'abord le cadrage méthodologique, la problématique et la conception architecturale, puis la réalisation concrète, la chaîne CI/CD Jenkins, la supervision Prometheus/Grafana et le déploiement cloud validé sous AWS.",
+            3: "Expliquez ici le problème majeur des entreprises : le fossé entre développeurs et exploitants, les déploiements manuels nocturnes sources d'erreurs, et l'absence de tests automatiques. TaskFlow apporte une solution complète intégrant conteneurs Docker, pipeline CI/CD et observabilité proactive.",
+            4: "Insistez sur le découpage 3-tiers : le client ne parle qu'à Nginx sur le port 80. Nginx joue le rôle d'API Gateway et dissimule la topologie interne des microservices. Les microservices User et Task communiquent de façon totalement asynchrone.",
+            5: "Mettez en valeur la rigueur de test : 20 tests Jest écrits et automatisés. 100% de réussite. C'est notre porte de qualité (Quality Gate) qui empêche tout code instable d'atteindre la production.",
+            6: "Soulignez l'ergonomie du tableau Kanban réactif et l'astuce technique de la résolution dynamique de domaine : les liens vers Jenkins et Grafana s'adaptent automatiquement à l'adresse IP de l'hôte sans modifier le code.",
+            7: "Expliquez le concept clé du Pipeline-as-Code via le Jenkinsfile. Jenkins pilote directement le moteur Docker hôte grâce au montage de docker.sock (Docker-out-of-Docker).",
+            8: "Présentez le Webhook GitHub : montrez que l'automatisation est complète. Un push déclenche le build en moins d'une seconde, sans action humaine.",
+            9: "Expliquez l'intérêt d'une supervision active : Prometheus scrape toutes les 5 secondes les métriques exposées par prom-client. Grafana est provisionné comme code (IaC) avec un dashboard prêt à l'emploi.",
+            10: "Détaillez l'instance AWS EC2 sous Ubuntu 24.04 LTS et les règles strictes de sécurité (Security Groups) n'ouvrant que les ports nécessaires.",
+            11: "Mettez en avant le succès du Build #13 : 38 secondes au total pour exécuter les tests, builder les images, redémarrer les conteneurs et valider les 5 sondes de santé HTTP en ligne.",
+            12: "Transition vers la démonstration : montrez au jury l'interaction sur le Kanban, puis basculez sur Jenkins et Grafana pour leur prouver l'impact en temps réel.",
+            13: "Montrez votre esprit critique en présentant honnêtement les limites du prototype actuel (instance unique, session académique) et les perspectives professionnelles (Kubernetes, PostgreSQL RDS, SonarQube).",
+            14: "Concluez avec assurance en remerciant le jury, votre encadrant M. Adnen Rouatbi et l'entreprise Creto, et invitez-les à poser leurs questions."
+        };
+
+        function showSlide(n) {
+            document.querySelectorAll('.slide-container').forEach(el => el.classList.remove('active'));
+            const target = document.getElementById(`slide-${n}`);
+            if (target) {
+                target.classList.add('active');
+                currentSlide = n;
+                document.getElementById('slide-counter').innerText = `${currentSlide} / ${totalSlides}`;
+                document.getElementById('notes-content').innerText = speakerNotesData[currentSlide] || "Pas de note spécifique.";
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) showSlide(currentSlide - 1);
+        }
+
+        function toggleNotes() {
+            document.getElementById('speaker-notes').classList.toggle('visible');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'n' || e.key === 'N') toggleNotes();
+        });
+
+        // Initialize notes
+        document.getElementById('notes-content').innerText = speakerNotesData[1];
+    </script>
+</body>
+</html>

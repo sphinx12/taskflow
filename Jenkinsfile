@@ -89,18 +89,26 @@ pipeline {
         stage('Health Check') {
             steps {
                 echo '=== Stage 6: Verifying service health ==='
-                sleep(time: 8, unit: 'SECONDS')
                 sh '''
-                    curl -f http://user-service:3001/health || exit 1
-                    echo "User Service is healthy!"
-                    curl -f http://task-service:3002/health || exit 1
-                    echo "Task Service is healthy!"
-                    curl -f http://frontend:80/ || exit 1
+                    echo "Checking User Service..."
+                    for i in $(seq 1 10); do curl -fs http://user-service:3001/health && break || sleep 2; done
+                    echo "\nUser Service is healthy!"
+
+                    echo "Checking Task Service..."
+                    for i in $(seq 1 10); do curl -fs http://task-service:3002/health && break || sleep 2; done
+                    echo "\nTask Service is healthy!"
+
+                    echo "Checking Frontend Dashboard..."
+                    for i in $(seq 1 10); do curl -fs http://frontend:80/ > /dev/null && break || sleep 2; done
                     echo "Frontend Dashboard is healthy!"
-                    curl -f http://prometheus:9090/-/healthy || exit 1
-                    echo "Prometheus is healthy!"
-                    curl -f http://grafana:3000/api/health || exit 1
-                    echo "Grafana is healthy!"
+
+                    echo "Checking Prometheus..."
+                    for i in $(seq 1 10); do curl -fs http://prometheus:9090/-/healthy && break || sleep 2; done
+                    echo "\nPrometheus is healthy!"
+
+                    echo "Checking Grafana..."
+                    for i in $(seq 1 15); do curl -fs http://grafana:3000/api/health && break || sleep 2; done
+                    echo "\nGrafana is healthy!"
                 '''
             }
         }

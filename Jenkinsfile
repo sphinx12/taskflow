@@ -74,7 +74,7 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 echo '=== Stage 4: Building Docker images ==='
-                sh 'docker compose -p taskflow build user-service task-service frontend'
+                sh 'docker compose -p taskflow build user-service task-service frontend prometheus grafana'
             }
         }
 

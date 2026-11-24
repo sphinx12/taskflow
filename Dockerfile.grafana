@@ -1,0 +1,5 @@
+FROM grafana/grafana:latest
+
+USER root
+COPY grafana/provisioning/ /etc/grafana/provisioning/
+USER grafana
